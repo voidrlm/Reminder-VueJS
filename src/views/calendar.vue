@@ -128,6 +128,18 @@
       class="rounded-xl pa-3 ma-3"
     >
     </v-calendar>
+    <v-fab-transition>
+      <v-btn
+        color="accent"
+        :class="$vuetify.theme.dark ? 'white--text' : 'black--text'"
+        fixed
+        bottom
+        right
+        fab
+      >
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </v-fab-transition>
   </v-container>
 </template>
 <script>
