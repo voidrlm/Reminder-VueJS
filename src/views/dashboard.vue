@@ -15,12 +15,63 @@
         }}</v-icon
       >{{ getGreetingData }}, User!</v-card-title
     >
+    <v-layout wrap>
+      <v-flex xs12 sm4 pa-2>
+        <v-card flat color="transparent">
+          <v-card-title class="text-h5 font-weight-medium">
+            Completed</v-card-title
+          >
+
+          <v-card-text class="headline"> 10 tasks</v-card-text>
+        </v-card>
+      </v-flex>
+      <v-flex xs12 sm4 pa-2>
+        <v-card flat color="transparent">
+          <v-card-title class="text-h5 font-weight-medium">
+            Pending</v-card-title
+          >
+          <v-card-text class="headline">1 task</v-card-text>
+        </v-card>
+      </v-flex>
+      <v-flex xs12 sm4 pa-2>
+        <v-card flat color="transparent">
+          <v-progress-circular
+            :value="23"
+            size="85"
+            width="15"
+            color="accent"
+            class="mt-4"
+          ></v-progress-circular>
+        </v-card>
+      </v-flex>
+      <v-flex xl="12" class="ml-2">
+        <v-card flat color="transparent">
+          <v-btn
+            rounded
+            color="accent"
+            @click="gotoToTasks"
+            dark
+            large
+            elevation="0"
+            class="ml-4 mt-5"
+          >
+            View Tasks
+          </v-btn>
+        </v-card>
+      </v-flex>
+    </v-layout>
+    <v-layout class="justify-end mt-5 mr-8"> </v-layout>
   </v-container>
 </template>
 <script>
 export default {
   name: "dashboard-component",
-  data: () => ({}),
+  data: () => ({
+    events:
+      localStorage.getItem("calenderEvents") !== null
+        ? JSON.parse(localStorage.getItem("calenderEvents"))
+        : [],
+  }),
   computed: {
     getGreetingData() {
       var today = new Date();
@@ -31,6 +82,12 @@ export default {
         : curHr > 18
         ? "Good Evening"
         : "Good Afternoon";
+    },
+  },
+  methods: {
+    gotoToTasks() {
+      if (this.$route.name !== "calendar")
+        this.$router.push("/calendar").catch(() => {});
     },
   },
 };
