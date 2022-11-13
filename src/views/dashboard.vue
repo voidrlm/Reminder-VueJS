@@ -62,6 +62,7 @@
             large
             elevation="0"
             class="ml-4 mt-5"
+            :class="$vuetify.theme.dark ? 'white--text' : 'black--text'"
           >
             View Calendar
           </v-btn>
