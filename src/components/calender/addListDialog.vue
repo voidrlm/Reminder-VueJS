@@ -79,7 +79,9 @@
                   mdi-close
                 </v-icon>
               </v-list-item> </v-card
-            ><v-card-title v-else class="elevation-0 subtitle-1 pa-0"
+            ><v-card-title
+              v-else
+              class="elevation-0 subtitle-1 pa-0 justify-center error--text"
               >Please add a task to the list</v-card-title
             >
           </v-container>
