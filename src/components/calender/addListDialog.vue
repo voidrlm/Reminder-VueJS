@@ -59,6 +59,7 @@
                     <v-date-picker
                       v-model="scheduleFrom"
                       :min="new Date().toISOString()"
+                      :max="scheduleTo"
                       @input="scheduleFromDatePick = false"
                     ></v-date-picker>
                   </v-menu>
@@ -85,7 +86,7 @@
                     </template>
                     <v-date-picker
                       v-model="scheduleTo"
-                      :max="scheduleTo"
+                      :min="new Date().toISOString()"
                       @input="scheduleToDatePick = false"
                     ></v-date-picker>
                   </v-menu>
