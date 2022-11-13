@@ -125,10 +125,11 @@
       :weekdays="weekday"
       color="accent--text"
       :class="$vuetify.theme.dark ? 'grey darken-4' : 'grey lighten-4'"
+      @click:event="showEvent"
       class="rounded-xl pa-3 ma-3"
     >
     </v-calendar>
-    <addReminderDialog @updateCalender="updateCalender" />
+    <addReminderDialog ref="todoDialog" @updateCalender="updateCalender" />
   </v-container>
 </template>
 <script>
@@ -156,6 +157,11 @@ export default {
     typeOptions: [],
   }),
   methods: {
+    showEvent(item) {
+      let eventData = item.event;
+      console.log(eventData);
+      this.$refs.todoDialog.dialog = true;
+    },
     updateCalender() {
       this.events = JSON.parse(localStorage.getItem("calenderEvents"));
     },
