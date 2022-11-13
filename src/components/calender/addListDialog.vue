@@ -262,7 +262,7 @@ export default {
         let newEvent = {
           name: this.listName,
           start: this.scheduleFrom + " " + this.scheduleFromTime,
-          stop: this.scheduleTo + " " + this.scheduleToTime,
+          end: this.scheduleTo + " " + this.scheduleToTime,
           tasks: this.tasks,
           color:
             "#" +
