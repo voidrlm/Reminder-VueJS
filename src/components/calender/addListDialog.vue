@@ -199,6 +199,7 @@ export default {
     },
     closeDialog() {
       this.dialog = false;
+      this.tasks = [];
       this.$refs.form.resetValidation();
     },
   },
