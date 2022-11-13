@@ -36,7 +36,7 @@
                     required
                   ></v-text-field>
                 </v-col>
-                <v-col cols="12" sm="6" md="6">
+                <v-col cols="12" sm="4" md="4">
                   <v-menu
                     v-model="scheduleFromDatePick"
                     :close-on-content-click="false"
@@ -60,11 +60,44 @@
                       v-model="scheduleFrom"
                       :min="new Date().toISOString()"
                       :max="scheduleTo"
-                      @input="scheduleFromDatePick = false"
+                      @input="
+                        scheduleFromDatePick = false;
+                        scheduleFromTimePick = true;
+                      "
                     ></v-date-picker>
                   </v-menu>
                 </v-col>
-                <v-col cols="12" sm="6" md="6">
+                <v-col cols="12" sm="2" md="2">
+                  <v-menu
+                    ref="startTime"
+                    v-model="scheduleFromTimePick"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    :return-value.sync="scheduleFromTime"
+                    transition="scale-transition"
+                    offset-y
+                    max-width="290px"
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="scheduleFromTime"
+                        label="Time*"
+                        :rules="requiredRule"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-time-picker
+                      v-if="scheduleFromTimePick"
+                      v-model="scheduleFromTime"
+                      full-width
+                      @click:minute="$refs.startTime.save(scheduleFromTime)"
+                    ></v-time-picker>
+                  </v-menu>
+                </v-col>
+                <v-col cols="12" sm="4" md="4">
                   <v-menu
                     v-model="scheduleToDatePick"
                     :close-on-content-click="false"
@@ -91,8 +124,41 @@
                           ? new Date().toISOString()
                           : scheduleFrom
                       "
-                      @input="scheduleToDatePick = false"
+                      @input="
+                        scheduleToDatePick = false;
+                        scheduleToTimePick = true;
+                      "
                     ></v-date-picker>
+                  </v-menu>
+                </v-col>
+                <v-col cols="12" sm="2" md="2">
+                  <v-menu
+                    ref="endTime"
+                    v-model="scheduleToTimePick"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    :return-value.sync="scheduleToTime"
+                    transition="scale-transition"
+                    offset-y
+                    max-width="290px"
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="scheduleToTime"
+                        label="Time*"
+                        :rules="requiredRule"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-time-picker
+                      v-if="scheduleToTimePick"
+                      v-model="scheduleToTime"
+                      full-width
+                      @click:minute="$refs.endTime.save(scheduleToTime)"
+                    ></v-time-picker>
                   </v-menu>
                 </v-col>
                 <v-col cols="12">
@@ -156,12 +222,16 @@ export default {
 
   data: () => ({
     scheduleFromDatePick: false,
+    scheduleFromTimePick: false,
     scheduleToDatePick: false,
+    scheduleToTimePick: false,
     formValidation: true,
     dialog: false,
     listName: "",
     scheduleFrom: "",
+    scheduleFromTime: "",
     scheduleTo: "",
+    scheduleToTime: "",
     tasks: [],
     task: null,
     requiredRule: [(v) => !!v || "This is a required field."],
@@ -191,8 +261,8 @@ export default {
         }
         let newEvent = {
           name: this.listName,
-          start: this.scheduleFrom,
-          stop: this.scheduleTo,
+          start: this.scheduleFrom + " " + this.scheduleFromTime,
+          stop: this.scheduleTo + " " + this.scheduleToTime,
           tasks: this.tasks,
           color:
             "#" +
