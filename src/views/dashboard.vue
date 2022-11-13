@@ -55,7 +55,7 @@
             elevation="0"
             class="ml-4 mt-5"
           >
-            View Tasks
+            View Calendar
           </v-btn>
         </v-card>
       </v-flex>
