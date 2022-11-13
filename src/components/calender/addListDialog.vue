@@ -194,7 +194,11 @@ export default {
           start: this.scheduleFrom,
           stop: this.scheduleTo,
           tasks: this.tasks,
-          color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+          color:
+            "#" +
+            Math.floor(Math.random() * 2 ** 24)
+              .toString(16)
+              .padStart(0, 6),
         };
         calenderEvents.push(newEvent);
         localStorage.setItem("calenderEvents", JSON.stringify(calenderEvents));
