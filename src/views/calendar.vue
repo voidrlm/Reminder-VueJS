@@ -149,20 +149,10 @@ export default {
     ],
     calenderFocus: "",
     showCalenderSettings: false,
-    events: [
-      {
-        name: "Event 1",
-        start: new Date().toISOString().slice(0, 10) + " 5:00",
-        end: new Date().toISOString().slice(0, 10) + " 16:00",
-        color: "accent",
-      },
-      {
-        name: "Event 2",
-        start: new Date().toISOString().slice(0, 10) + " 15:00",
-        end: new Date().toISOString().slice(0, 10) + " 16:00",
-        color: "accent",
-      },
-    ],
+    events:
+      localStorage.getItem("calenderEvents") !== null
+        ? JSON.parse(localStorage.getItem("calenderEvents"))
+        : [],
     typeOptions: [],
   }),
   methods: {
