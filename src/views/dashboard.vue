@@ -107,8 +107,13 @@ export default {
       return occurences;
     },
     progress() {
-      let occurences = 0;
-      return occurences;
+      let totalTasks = 0;
+      this.events.forEach((event) => {
+        event.tasks.forEach(() => {
+          totalTasks = totalTasks + 1;
+        });
+      });
+      return (this.completed / totalTasks) * 100;
     },
   },
   methods: {
