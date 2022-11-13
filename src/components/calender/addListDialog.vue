@@ -37,20 +37,58 @@
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" md="6">
-                  <v-text-field
-                    label="Schedule From*"
-                    v-model="scheduleFrom"
-                    :rules="requiredRule"
-                    required
-                  ></v-text-field>
+                  <v-menu
+                    v-model="scheduleFromDatePick"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="auto"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="scheduleFrom"
+                        label="Schedule From*"
+                        :rules="requiredRule"
+                        required
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                      v-model="scheduleFrom"
+                      :min="new Date().toISOString()"
+                      @input="scheduleFromDatePick = false"
+                    ></v-date-picker>
+                  </v-menu>
                 </v-col>
                 <v-col cols="12" sm="6" md="6">
-                  <v-text-field
-                    label="Schedule To*"
-                    v-model="scheduleTo"
-                    :rules="requiredRule"
-                    required
-                  ></v-text-field>
+                  <v-menu
+                    v-model="scheduleToDatePick"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="auto"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="scheduleTo"
+                        label="Schedule To*"
+                        :rules="requiredRule"
+                        required
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                      v-model="scheduleTo"
+                      :max="scheduleTo"
+                      @input="scheduleToDatePick = false"
+                    ></v-date-picker>
+                  </v-menu>
                 </v-col>
                 <v-col cols="12">
                   <v-text-field
@@ -112,6 +150,8 @@ export default {
   name: "add-list-component",
 
   data: () => ({
+    scheduleFromDatePick: false,
+    scheduleToDatePick: false,
     formValidation: true,
     dialog: false,
     listName: "",
@@ -145,14 +185,15 @@ export default {
           calenderEvents = JSON.parse(localStorage.getItem("calenderEvents"));
         }
         let newEvent = {
-          listName: this.listName,
-          scheduleFrom: this.scheduleFrom,
-          scheduleTo: this.scheduleTo,
+          name: this.listName,
+          start: this.scheduleFrom,
+          stop: this.scheduleTo,
           tasks: this.tasks,
         };
         console.log(newEvent);
         calenderEvents.push(newEvent);
         localStorage.setItem("calenderEvents", JSON.stringify(calenderEvents));
+        this.closeDialog();
       }
     },
     closeDialog() {
