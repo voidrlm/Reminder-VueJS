@@ -86,7 +86,11 @@
                     </template>
                     <v-date-picker
                       v-model="scheduleTo"
-                      :min="new Date().toISOString()"
+                      :min="
+                        scheduleFrom === ''
+                          ? new Date().toISOString()
+                          : scheduleFrom
+                      "
                       @input="scheduleToDatePick = false"
                     ></v-date-picker>
                   </v-menu>
@@ -190,10 +194,11 @@ export default {
           start: this.scheduleFrom,
           stop: this.scheduleTo,
           tasks: this.tasks,
+          color: "#" + Math.floor(Math.random() * 16777215).toString(16),
         };
-        console.log(newEvent);
         calenderEvents.push(newEvent);
         localStorage.setItem("calenderEvents", JSON.stringify(calenderEvents));
+        this.$emit("updateCalender");
         this.closeDialog();
       }
     },

@@ -128,7 +128,7 @@
       class="rounded-xl pa-3 ma-3"
     >
     </v-calendar>
-    <addReminderDialog />
+    <addReminderDialog @updateCalender="updateCalender" />
   </v-container>
 </template>
 <script>
@@ -156,6 +156,9 @@ export default {
     typeOptions: [],
   }),
   methods: {
+    updateCalender() {
+      this.events = JSON.parse(localStorage.getItem("calenderEvents"));
+    },
     onResize: function () {
       if (window.innerWidth >= 600) {
         this.calenderType = "week";
