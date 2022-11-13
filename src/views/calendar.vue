@@ -5,7 +5,7 @@
       :class="
         $vuetify.breakpoint.mdAndUp ? 'text-h4 mt-n7' : 'text-h5 justify-center'
       "
-      >Calendar
+      >Tasks
 
       <v-dialog
         v-model="showCalenderSettings"

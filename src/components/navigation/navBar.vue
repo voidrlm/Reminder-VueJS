@@ -41,7 +41,7 @@ export default {
     showNavbarDrawer: true,
     items: [
       { title: "Dashboard", icon: "mdi-home", route: "/dashboard" },
-      { title: "Calendar", icon: "mdi-calendar-blank", route: "/calendar" },
+      { title: "Tasks", icon: "mdi-calendar-blank", route: "/calendar" },
     ],
   }),
 };
