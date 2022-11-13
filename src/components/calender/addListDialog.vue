@@ -26,33 +26,49 @@
       <v-card>
         <v-card-text class="pa-5">
           <v-container>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field label="List Name*" required></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6" md="6">
-                <v-text-field label="Schedule From*" required></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6" md="6">
-                <v-text-field label="Schedule To*" required></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  v-model="task"
-                  label="Enter task*"
-                  required
-                  append-icon="mdi-plus-circle"
-                  @keydown.enter="addTask()"
-                  @click:append="addTask()"
-                ></v-text-field>
-              </v-col>
-            </v-row>
+            <v-form ref="form" v-model="formValidation" lazy-validation>
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field
+                    label="List Name*"
+                    v-model="listName"
+                    :rules="requiredRule"
+                    required
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6" md="6">
+                  <v-text-field
+                    label="Schedule From*"
+                    v-model="scheduleFrom"
+                    :rules="requiredRule"
+                    required
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6" md="6">
+                  <v-text-field
+                    label="Schedule To*"
+                    v-model="scheduleTo"
+                    :rules="requiredRule"
+                    required
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    v-model="task"
+                    label="Enter task*"
+                    append-icon="mdi-plus-circle"
+                    @keydown.enter="addTask()"
+                    @click:append="addTask()"
+                  ></v-text-field>
+                </v-col> </v-row
+            ></v-form>
+
             <v-card v-if="tasks.length > 0" class="elevation-0 mx-n4">
               <v-list-item v-for="(task, i) in tasks" :key="i">
-                <v-list-title>
+                <v-list-item-title>
                   <v-icon class="mr-2">
                     mdi-checkbox-blank-circle-outline </v-icon
-                  >{{ task.text }}</v-list-title
+                  >{{ task.text }}</v-list-item-title
                 >
                 <v-icon
                   class="ml-1"
@@ -73,14 +89,17 @@
           <v-btn
             :class="$vuetify.theme.dark ? 'white--text' : 'black--text'"
             text
-            @click="dialog = false"
+            @click="
+              dialog = false;
+              $refs.form.resetValidation();
+            "
           >
             Close
           </v-btn>
           <v-btn
             :class="$vuetify.theme.dark ? 'white--text' : 'black--text'"
             text
-            @click="dialog = false"
+            @click="saveList"
           >
             Save
           </v-btn>
@@ -94,10 +113,16 @@ export default {
   name: "add-list-component",
 
   data: () => ({
+    formValidation: true,
     dialog: false,
+    listName: "",
+    scheduleFrom: "",
+    scheduleTo: "",
     tasks: [],
     task: null,
+    requiredRule: [(v) => !!v || "This is a required field."],
   }),
+
   methods: {
     addTask() {
       if (this.task) {
@@ -110,6 +135,14 @@ export default {
     },
     removeTask(task) {
       this.tasks.splice(this.tasks.indexOf(task), 1);
+    },
+    validate() {
+      this.$refs.form.validate();
+    },
+    saveList() {
+      if (this.$refs.form.validate() && this.tasks.length !== 0) {
+        console.log("saved successfully");
+      }
     },
   },
 };
