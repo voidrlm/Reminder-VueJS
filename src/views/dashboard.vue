@@ -22,7 +22,7 @@
             Completed</v-card-title
           >
 
-          <v-card-text class="headline"> 10 tasks</v-card-text>
+          <v-card-text class="headline"> {{ completed }} tasks</v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs12 sm4 pa-2>
@@ -30,13 +30,13 @@
           <v-card-title class="text-h5 font-weight-medium">
             Pending</v-card-title
           >
-          <v-card-text class="headline">1 task</v-card-text>
+          <v-card-text class="headline">{{ pending }} task</v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs12 sm4 pa-2>
         <v-card flat color="transparent">
           <v-progress-circular
-            :value="23"
+            :value="progress"
             size="85"
             width="15"
             color="accent"
@@ -82,6 +82,19 @@ export default {
         : curHr > 18
         ? "Good Evening"
         : "Good Afternoon";
+    },
+
+    completed() {
+      let occurences = 0;
+      return occurences;
+    },
+    pending() {
+      let occurences = 0;
+      return occurences;
+    },
+    progress() {
+      let occurences = 0;
+      return occurences;
     },
   },
   methods: {
