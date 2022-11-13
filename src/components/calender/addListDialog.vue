@@ -89,10 +89,7 @@
           <v-btn
             :class="$vuetify.theme.dark ? 'white--text' : 'black--text'"
             text
-            @click="
-              dialog = false;
-              $refs.form.resetValidation();
-            "
+            @click="closeDialog"
           >
             Close
           </v-btn>
@@ -141,8 +138,24 @@ export default {
     },
     saveList() {
       if (this.$refs.form.validate() && this.tasks.length !== 0) {
-        console.log("saved successfully");
+        var calenderEvents = [];
+        if (localStorage.getItem("calenderEvents") !== null) {
+          calenderEvents = JSON.parse(localStorage.getItem("calenderEvents"));
+        }
+        let newEvent = {
+          listName: this.listName,
+          scheduleFrom: this.scheduleFrom,
+          scheduleTo: this.scheduleTo,
+          tasks: this.tasks,
+        };
+        console.log(newEvent);
+        calenderEvents.push(newEvent);
+        localStorage.setItem("calenderEvents", JSON.stringify(calenderEvents));
       }
+    },
+    closeDialog() {
+      this.dialog = false;
+      this.$refs.form.resetValidation();
     },
   },
 };
