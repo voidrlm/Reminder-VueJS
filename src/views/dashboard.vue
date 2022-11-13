@@ -22,7 +22,10 @@
             Completed</v-card-title
           >
 
-          <v-card-text class="headline"> {{ completed }} tasks</v-card-text>
+          <v-card-text class="headline">
+            {{ completed }}
+            {{ completed == 1 ? " task" : "tasks" }}</v-card-text
+          >
         </v-card>
       </v-flex>
       <v-flex xs12 sm4 pa-2>
@@ -30,7 +33,9 @@
           <v-card-title class="text-h5 font-weight-medium">
             Pending</v-card-title
           >
-          <v-card-text class="headline">{{ pending }} task</v-card-text>
+          <v-card-text class="headline"
+            >{{ pending }} {{ pending == 1 ? " task" : "tasks" }}</v-card-text
+          >
         </v-card>
       </v-flex>
       <v-flex xs12 sm4 pa-2>
