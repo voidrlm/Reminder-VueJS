@@ -86,10 +86,24 @@ export default {
 
     completed() {
       let occurences = 0;
+      this.events.forEach((event) => {
+        event.tasks.forEach((task) => {
+          if (task.done) {
+            occurences = occurences + 1;
+          }
+        });
+      });
       return occurences;
     },
     pending() {
       let occurences = 0;
+      this.events.forEach((event) => {
+        event.tasks.forEach((task) => {
+          if (!task.done) {
+            occurences = occurences + 1;
+          }
+        });
+      });
       return occurences;
     },
     progress() {
