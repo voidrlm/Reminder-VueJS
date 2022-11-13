@@ -41,12 +41,15 @@
       <v-flex xs12 sm4 pa-2>
         <v-card flat color="transparent">
           <v-progress-circular
-            :value="progress"
+            :value="pending"
             size="85"
             width="15"
-            color="accent"
+            :color="
+              $vuetify.theme.dark ? 'accent lighten-3 ' : 'accent darken-3'
+            "
             class="mt-4"
-          ></v-progress-circular>
+            >{{ progress }} %</v-progress-circular
+          >
         </v-card>
       </v-flex>
       <v-flex xl="12" class="ml-2">
