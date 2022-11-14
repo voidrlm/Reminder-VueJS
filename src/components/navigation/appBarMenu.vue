@@ -112,7 +112,7 @@ export default {
       } else {
         let lightAccent =
           color === "default"
-            ? "#e8e8e8"
+            ? "#E0E0E0"
             : color === "5"
             ? "#46fa58"
             : color === "4"
@@ -126,7 +126,7 @@ export default {
             : "";
         let darkAccent =
           color === "default"
-            ? "#171717"
+            ? "#1c1c1c"
             : color === "5"
             ? "#32b83e"
             : color === "4"
