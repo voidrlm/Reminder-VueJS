@@ -41,7 +41,7 @@
       <v-flex xs12 sm4 pa-2>
         <v-card flat color="transparent">
           <v-progress-circular
-            :value="pending"
+            :value="progress"
             size="85"
             width="15"
             :color="
