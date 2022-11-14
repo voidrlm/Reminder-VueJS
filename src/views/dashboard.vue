@@ -73,11 +73,18 @@
       <template v-slot:default="props">
         <v-layout row wrap class="mt-5 mx-3">
           <v-flex xs12 sm3 pa-2 v-for="item in props.items" :key="item.name">
-            <v-card flat class="rounded-xl mb-5 mx-1">
+            <v-card
+              flat
+              class="rounded-xl mb-5 mx-1"
+              :class="$vuetify.theme.dark ? 'secondary' : 'secondary'"
+            >
               <v-card-title class="subheading font-weight-bold">
                 {{ item.name }}
               </v-card-title>
-              <v-list dense>
+              <v-list
+                dense
+                :class="$vuetify.theme.dark ? 'secondary' : 'secondary'"
+              >
                 <v-list-item class="mt-n5">
                   <v-list-item-content
                     ><v-list-item-subtitle
