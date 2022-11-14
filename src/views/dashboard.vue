@@ -38,7 +38,7 @@
           >
         </v-card>
       </v-flex>
-      <v-flex xs12 sm4 pa-2>
+      <v-flex xs12 sm4 pa-2 v-if="!$vuetify.breakpoint.xsOnly">
         <v-card flat color="transparent">
           <v-progress-circular
             :value="progress"
@@ -52,7 +52,7 @@
           >
         </v-card>
       </v-flex>
-      <v-flex xl="12" class="ml-2 mt-n5">
+      <v-flex xl="12" class="ml-2 mt-n5" v-if="!$vuetify.breakpoint.xsOnly">
         <v-card flat color="transparent">
           <v-btn
             rounded
@@ -81,12 +81,13 @@
                 <v-list-item class="mt-n5">
                   <v-list-item-content
                     ><v-list-item-subtitle
-                      >Completed:{{
+                      >Completed:
+                      {{
                         item.completed ? item.completed : 0
                       }}</v-list-item-subtitle
                     >
                     <v-list-item-subtitle
-                      >Remaining:{{ item.pending }}</v-list-item-subtitle
+                      >Remaining: {{ item.pending }}</v-list-item-subtitle
                     >
                   </v-list-item-content>
                   <v-progress-circular
