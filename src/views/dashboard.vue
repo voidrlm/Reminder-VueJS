@@ -52,7 +52,7 @@
           >
         </v-card>
       </v-flex>
-      <v-flex xl="12" class="ml-2">
+      <v-flex xl="12" class="ml-2 mt-n5">
         <v-card flat color="transparent">
           <v-btn
             rounded
@@ -69,18 +69,74 @@
         </v-card>
       </v-flex>
     </v-layout>
-    <v-layout class="justify-end mt-5 mr-8"> </v-layout>
+    <v-data-iterator :items="events" hide-default-header hide-default-footer>
+      <template v-slot:default="props">
+        <v-layout row wrap class="mt-5 mx-3">
+          <v-flex xs12 sm3 pa-2 v-for="item in props.items" :key="item.name">
+            <v-card flat class="rounded-xl mb-5 mx-1">
+              <v-card-title class="subheading font-weight-bold">
+                {{ item.name }}
+              </v-card-title>
+              <v-list dense>
+                <v-list-item class="mt-n5">
+                  <v-list-item-content
+                    ><v-list-item-subtitle
+                      >Completed:{{
+                        item.completed ? item.completed : 0
+                      }}</v-list-item-subtitle
+                    >
+                    <v-list-item-subtitle
+                      >Remaining:{{ item.pending }}</v-list-item-subtitle
+                    >
+                  </v-list-item-content>
+                  <v-progress-circular
+                    :value="(item.completed / item.total) * 100 || 0"
+                    size="30"
+                    width="3"
+                    :color="
+                      $vuetify.theme.dark
+                        ? 'accent lighten-3 '
+                        : 'accent darken-3'
+                    "
+                    class="mt-n2"
+                  ></v-progress-circular>
+                </v-list-item>
+              </v-list>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </template>
+    </v-data-iterator>
   </v-container>
 </template>
 <script>
 export default {
   name: "dashboard-component",
   data: () => ({
-    events:
+    events: [],
+  }),
+  mounted() {
+    this.events =
       localStorage.getItem("calenderEvents") !== null
         ? JSON.parse(localStorage.getItem("calenderEvents"))
-        : [],
-  }),
+        : [];
+    this.events.map((event) => {
+      let completed = 0;
+      let pending = 0;
+      let total = 0;
+      event.tasks.map((task) => {
+        total = total + 1;
+        event.total = total;
+        if (task.done) {
+          completed = completed + 1;
+          event.completed = completed;
+        } else if (!task.done) {
+          pending = pending + 1;
+          event.pending = pending;
+        }
+      });
+    });
+  },
   computed: {
     getGreetingData() {
       var today = new Date();
