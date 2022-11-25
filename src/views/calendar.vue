@@ -6,7 +6,6 @@
         $vuetify.breakpoint.mdAndUp ? 'text-h4 mt-n7' : 'text-h5 justify-center'
       "
       >Tasks
-
       <v-dialog
         v-model="showCalenderSettings"
         width="500"
@@ -130,16 +129,27 @@
     >
     </v-calendar>
     <addReminderDialog ref="todoDialog" @updateCalender="updateCalender" />
+    <div v-if="showProgress">
+      <editListDialog
+        ref="editList"
+        :show="showProgress"
+        :eventData="eventData"
+        @closeDialog="showProgress = false"
+      />
+    </div>
   </v-container>
 </template>
 <script>
 import addReminderDialog from "../components/calender/addListDialog.vue";
+import editListDialog from "../components/calender/editListDialog.vue";
 export default {
   name: "dashboard-component",
   components: {
     addReminderDialog,
+    editListDialog,
   },
   data: () => ({
+    showProgress: false,
     calenderType: "week",
     weekday: [0, 1, 2, 3, 4, 5, 6],
     weekdays: [
@@ -155,12 +165,19 @@ export default {
         ? JSON.parse(localStorage.getItem("calenderEvents"))
         : [],
     typeOptions: [],
+    eventData: {},
   }),
   methods: {
     showEvent(item) {
-      let eventData = item.event;
-      console.log(eventData);
-      this.$refs.todoDialog.dialog = true;
+      this.eventData = {
+        listName: item.event.name,
+        scheduleFrom: item.event.start.split(" ")[0],
+        scheduleFromTime: item.event.start.split(" ")[1],
+        scheduleTo: item.event.end.split(" ")[0],
+        scheduleToTime: item.event.end.split(" ")[1],
+        tasks: item.event.tasks,
+      };
+      this.showProgress = true;
     },
     updateCalender() {
       this.events = JSON.parse(localStorage.getItem("calenderEvents"));
