@@ -260,6 +260,7 @@ export default {
           calenderEvents = JSON.parse(localStorage.getItem("calenderEvents"));
         }
         let newEvent = {
+          id: Math.random(),
           name: this.listName,
           start: this.scheduleFrom + " " + this.scheduleFromTime,
           end: this.scheduleTo + " " + this.scheduleToTime,
@@ -272,7 +273,7 @@ export default {
         };
         calenderEvents.push(newEvent);
         localStorage.setItem("calenderEvents", JSON.stringify(calenderEvents));
-        this.$emit("updateCalender");
+        this.$emit("updateEvents");
         this.closeDialog();
       }
     },
