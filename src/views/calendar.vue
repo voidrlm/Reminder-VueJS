@@ -128,13 +128,14 @@
       class="rounded-xl pa-3 ma-3"
     >
     </v-calendar>
-    <addReminderDialog ref="todoDialog" @updateCalender="updateCalender" />
+    <addReminderDialog ref="todoDialog" @updateEvents="updateEvents" />
     <div v-if="showProgress">
       <editListDialog
         ref="editList"
         :show="showProgress"
         :eventData="eventData"
         @closeDialog="showProgress = false"
+        @updateEvents="updateEvents"
       />
     </div>
   </v-container>
@@ -170,16 +171,18 @@ export default {
   methods: {
     showEvent(item) {
       this.eventData = {
+        id: item.event.id,
         listName: item.event.name,
         scheduleFrom: item.event.start.split(" ")[0],
         scheduleFromTime: item.event.start.split(" ")[1],
         scheduleTo: item.event.end.split(" ")[0],
         scheduleToTime: item.event.end.split(" ")[1],
         tasks: item.event.tasks,
+        color: item.event.color,
       };
       this.showProgress = true;
     },
-    updateCalender() {
+    updateEvents() {
       this.events = JSON.parse(localStorage.getItem("calenderEvents"));
     },
     onResize: function () {

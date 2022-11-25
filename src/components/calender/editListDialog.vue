@@ -70,7 +70,9 @@
                     v-if="scheduleFromTimePick"
                     v-model="eventObject.scheduleFromTime"
                     full-width
-                    @click:minute="$refs.startTime.save(scheduleFromTime)"
+                    @click:minute="
+                      $refs.startTime.save(eventObject.scheduleFromTime)
+                    "
                   ></v-time-picker>
                 </v-menu>
               </v-col>
@@ -152,9 +154,13 @@
           <v-card v-if="eventObject.tasks.length > 0" class="elevation-0 mx-n4">
             <v-list-item v-for="(task, i) in eventObject.tasks" :key="i">
               <v-list-item-title>
-                <v-icon class="mr-2"> mdi-checkbox-blank-circle-outline </v-icon
-                >{{ task.text }}</v-list-item-title
-              >
+                <v-checkbox
+                  class="ml-2"
+                  color="accent"
+                  v-model="task.done"
+                  :label="task.text"
+                ></v-checkbox
+              ></v-list-item-title>
               <v-icon
                 class="ml-1"
                 size="20"
@@ -201,7 +207,6 @@ export default {
     scheduleToDatePick: false,
     scheduleToTimePick: false,
     formValidation: true,
-    dialog: false,
     task: null,
     requiredRule: [(v) => !!v || "This is a required field."],
   }),
@@ -223,7 +228,7 @@ export default {
   methods: {
     addTask() {
       if (this.task) {
-        this.tasks.push({
+        this.eventObject.tasks.push({
           done: false,
           text: this.task,
         });
@@ -231,37 +236,45 @@ export default {
       this.task = null;
     },
     removeTask(task) {
-      this.tasks.splice(this.tasks.indexOf(task), 1);
+      this.eventObject.tasks.splice(this.eventObject.tasks.indexOf(task), 1);
     },
     validate() {
       this.$refs.form.validate();
     },
     saveList() {
-      if (this.$refs.form.validate() && this.tasks.length !== 0) {
-        var calenderEvents = [];
+      if (this.$refs.form.validate() && this.eventObject.tasks.length !== 0) {
         if (localStorage.getItem("calenderEvents") !== null) {
-          calenderEvents = JSON.parse(localStorage.getItem("calenderEvents"));
+          var calenderEvents = JSON.parse(
+            localStorage.getItem("calenderEvents")
+          );
+          var foundIndex = calenderEvents.findIndex(
+            (list) => list.id === this.eventObject.id
+          );
+          calenderEvents[foundIndex] = {
+            id: this.eventObject.id,
+            name: this.eventObject.listName,
+            start:
+              this.eventObject.scheduleFrom +
+              " " +
+              this.eventObject.scheduleFromTime,
+            end:
+              this.eventObject.scheduleTo +
+              " " +
+              this.eventObject.scheduleToTime,
+            tasks: this.eventObject.tasks,
+            color: calenderEvents[foundIndex].color,
+          };
+          localStorage.setItem(
+            "calenderEvents",
+            JSON.stringify(calenderEvents)
+          );
+          this.$emit("updateEvents");
+          this.closeDialog();
         }
-        let newEvent = {
-          name: this.listName,
-          start: this.scheduleFrom + " " + this.scheduleFromTime,
-          end: this.scheduleTo + " " + this.scheduleToTime,
-          tasks: this.tasks,
-          color:
-            "#" +
-            Math.floor(Math.random() * 2 ** 24)
-              .toString(16)
-              .padStart(0, 6),
-        };
-        calenderEvents.push(newEvent);
-        localStorage.setItem("calenderEvents", JSON.stringify(calenderEvents));
-        this.$emit("updateCalender");
-        this.closeDialog();
       }
     },
     closeDialog() {
-      this.dialog = false;
-      this.tasks = [];
+      this.showDialog = false;
       this.$refs.form.resetValidation();
     },
   },

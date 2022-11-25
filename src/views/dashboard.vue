@@ -122,6 +122,7 @@
         :show="showProgress"
         :eventData="eventData"
         @closeDialog="showProgress = false"
+        @updateEvents="updateEvents"
       />
     </div>
   </v-container>
@@ -207,18 +208,23 @@ export default {
   methods: {
     showEvent(item) {
       this.eventData = {
+        id: item.id,
         listName: item.name,
         scheduleFrom: item.start.split(" ")[0],
         scheduleFromTime: item.start.split(" ")[1],
         scheduleTo: item.end.split(" ")[0],
         scheduleToTime: item.end.split(" ")[1],
         tasks: item.tasks,
+        color: item.color,
       };
       this.showProgress = true;
     },
     gotoToTasks() {
       if (this.$route.name !== "calendar")
         this.$router.push("/calendar").catch(() => {});
+    },
+    updateEvents() {
+      this.events = JSON.parse(localStorage.getItem("calenderEvents"));
     },
   },
 };
