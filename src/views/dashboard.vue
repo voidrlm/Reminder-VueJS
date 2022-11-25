@@ -77,6 +77,7 @@
               flat
               class="rounded-xl mb-5 mx-1"
               :class="$vuetify.theme.dark ? 'secondary' : 'secondary'"
+              @click="showEvent(item)"
             >
               <v-card-title class="subheading font-weight-bold">
                 {{ item.name }}
@@ -115,14 +116,28 @@
         </v-layout>
       </template>
     </v-data-iterator>
+    <div v-if="showProgress">
+      <editListDialog
+        ref="editList"
+        :show="showProgress"
+        :eventData="eventData"
+        @closeDialog="showProgress = false"
+      />
+    </div>
   </v-container>
 </template>
 <script>
+import editListDialog from "../components/calender/editListDialog.vue";
 export default {
   name: "dashboard-component",
   data: () => ({
     events: [],
+    showProgress: false,
+    eventData: {},
   }),
+  components: {
+    editListDialog,
+  },
   mounted() {
     this.events =
       localStorage.getItem("calenderEvents") !== null
@@ -190,6 +205,17 @@ export default {
     },
   },
   methods: {
+    showEvent(item) {
+      this.eventData = {
+        listName: item.name,
+        scheduleFrom: item.start.split(" ")[0],
+        scheduleFromTime: item.start.split(" ")[1],
+        scheduleTo: item.end.split(" ")[0],
+        scheduleToTime: item.end.split(" ")[1],
+        tasks: item.tasks,
+      };
+      this.showProgress = true;
+    },
     gotoToTasks() {
       if (this.$route.name !== "calendar")
         this.$router.push("/calendar").catch(() => {});
