@@ -42,10 +42,10 @@
         <v-card flat color="transparent">
           <v-progress-circular
             :value="progress"
-            size="85"
-            width="15"
+            size="95"
+            width="13"
             :color="
-              $vuetify.theme.dark ? 'accent lighten-3 ' : 'accent darken-3'
+              $vuetify.theme.dark ? 'accent lighten-2 ' : 'accent darken-3'
             "
             class="mt-4"
             >{{ progress }} %</v-progress-circular
