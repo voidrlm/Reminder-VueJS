@@ -202,7 +202,7 @@ export default {
           totalTasks = totalTasks + 1;
         });
       });
-      return (this.completed / totalTasks) * 100 || 0;
+      return Math.round((this.completed / totalTasks) * 100) || 0;
     },
   },
   methods: {
