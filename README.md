@@ -1,5 +1,9 @@
 # A simple reminder web app created using Vue Js And Vuetify.
 
+View Preview
+
+https://imgur.com/fLv0CTs
+
 Feature:
 
 1)Create reminder list 
