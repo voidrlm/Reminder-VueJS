@@ -1,8 +1,9 @@
 # A simple reminder web app created using Vue Js And Vuetify.
 
-View Preview
-
-https://imgur.com/fLv0CTs
+## Live Demo
+<p>
+    <a href="https://voidrlm.github.io/Reminder-VueJS/#/dashboard" target="_blank">Online Demo</a>
+</p>
 
 ## Feature:
 
